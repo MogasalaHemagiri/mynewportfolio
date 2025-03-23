@@ -1,6 +1,6 @@
 import { GetStaticProps } from "next";
 import Head from "next/head";
-import Image from "next/image";
+import Image from "next/Image";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
 import styles from "../styles/Home.module.css";
@@ -41,13 +41,13 @@ const Home = ({ pageInfo, experiences, projects, skills, socials }: Props) => {
         />
         <link
           rel="icon"
-          type="image/png"
+          type="Image/png"
           sizes="32x32"
           href="/favicon-32x32.png"
         />
         <link
           rel="icon"
-          type="image/png"
+          type="Image/png"
           sizes="16x16"
           href="/favicon-16x16.png"
         />
