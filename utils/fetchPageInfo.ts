@@ -1,4 +1,4 @@
-import { PageInfo } from "../types"; // Adjust the path based on your structure
+import { PageInfo } from "../typings"; // Adjust the path based on your structure
 export const fetchPageInfo = async () => {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/getPageInfo`);
