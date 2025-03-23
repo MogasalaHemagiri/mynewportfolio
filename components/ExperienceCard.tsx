@@ -31,7 +31,7 @@ export default function ExperienceCard({ experience }: Props) {
                 <img
                   key={technology._id}
                   className="h-10 w-10 rounded-full object-cover"
-                  src={urlFor(technology?.image).url()}
+                  src={urlFor(technology?.Image).url()}
                   alt=""
                 />
               ))}
