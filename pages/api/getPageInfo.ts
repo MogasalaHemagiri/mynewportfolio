@@ -3,9 +3,7 @@ import { groq } from "next-sanity";
 import { sanityClient } from "../../sanity";
 import { PageInfo } from "../../typings";
 
-const query = groq`
-    *[_type == 'pageInfo'][0]
-`;
+const query = groq`*[_type == 'pageInfo'][0]`;
 
 type Data = {
     pageInfo?: PageInfo;
@@ -17,10 +15,14 @@ export default async function handler(
     res: NextApiResponse<Data>
 ) {
     try {
-        const pageInfo: PageInfo = await sanityClient.fetch(query);
+        if (req.method !== "GET") {
+            return res.status(405).json({ error: "Method Not Allowed" });
+        }
+
+        const pageInfo: PageInfo | null = await sanityClient.fetch(query);
 
         if (!pageInfo) {
-            throw new Error("No PageInfo found");
+            return res.status(404).json({ error: "PageInfo not found" });
         }
 
         res.status(200).json({ pageInfo });
