@@ -23,7 +23,7 @@ export default function Projects({ projects }: Props) {
             key={project._id}
             className="w-screen flex-shrink-0 snap-center flex flex-col space-y-5 items-center justify-center p-10 md:p-44 h-screen"
           >
-            <motion.img
+            <motion.image
               initial={{ y: -100, opacity: 0 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2 }}
@@ -42,7 +42,7 @@ export default function Projects({ projects }: Props) {
               </h4>
               <div className="flex items-center space-x-2 justify-center ">
                 {project?.technologies.map((technology) => (
-                  <Img
+                  <Image
                     key={technology._id}
                     className="h-10 w-10 rounded-full object-cover"
                     src={urlFor(technology?.image).url()}
