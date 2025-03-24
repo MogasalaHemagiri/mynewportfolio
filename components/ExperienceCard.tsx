@@ -40,7 +40,7 @@ export default function ExperienceCard({ experience }: Props) {
                 <Image
                   key={technology._id}
                   className="h-10 w-10 rounded-full object-cover"
-                  src={urlFor(technology?.Image).url()}
+                  src={urlFor(technology?.image).url()}
                   alt={`${technology?.name || "Technology"} Icon`}
                   width={40}
                   height={40}
