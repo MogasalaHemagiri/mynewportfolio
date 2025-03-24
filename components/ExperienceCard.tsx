@@ -40,7 +40,7 @@ export default function ExperienceCard({ experience }: Props) {
                   key={technology._id}
                   className="h-10 w-10 rounded-full object-cover"
                   src={urlFor(technology?.image).url()}
-                  alt="Technology Icon" // Static fallback
+                  alt={`${technology?.title || "Technology"} Icon`} // Changed 'name' to 'title'
                   width={40}
                   height={40}
                 />
@@ -52,7 +52,7 @@ export default function ExperienceCard({ experience }: Props) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2 }}
-            className="invisible md:visible xl:invisible xl:h-0[invisible md:visible xl:invisible xl:h-0 xl:w-0 h-0 w-0 md:h-28 md:w-28 rounded-full mb-0 object-cover object-center"
+            className="invisible md:visible xl:invisible xl:h-0 xl:w-0 h-0 w-0 md:h-28 md:w-28 rounded-full mb-0 object-cover object-center"
           >
             <Image
               src={urlFor(experience?.companyImage).url()}
