@@ -9,7 +9,6 @@ type Props = { experience: Experience };
 export default function ExperienceCard({ experience }: Props) {
   return (
     <article className="flex drop-shadow-xl flex-col rounded-3xl items-center space-y-0 flex-shrink-0 w-72 md:w-[600px] xl:w-[700px] snap-center bg-[#FFFFFF] bg-gradient-to-tr from-white to-darkGreen/20 p-5 md:p10 hover:opacity-100 opacity-100 cursor-pointer transition-opacity duration-200">
-      {/* Desktop Logo */}
       <motion.div
         initial={{ opacity: 0, y: -100 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -41,21 +40,19 @@ export default function ExperienceCard({ experience }: Props) {
                   key={technology._id}
                   className="h-10 w-10 rounded-full object-cover"
                   src={urlFor(technology?.image).url()}
-                  alt={`${technology?.name || "Technology"} Icon`}
+                  alt="Technology Icon" // Static fallback
                   width={40}
                   height={40}
                 />
               ))}
             </div>
           </div>
-
-          {/* Mobile Logo */}
           <motion.div
             initial={{ opacity: 0, y: -100 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2 }}
-            className="invisible md:visible xl:invisible xl:h-0 xl:w-0 h-0 w-0 md:h-28 md:w-28 rounded-full mb-0 object-cover object-center"
+            className="invisible md:visible xl:invisible xl:h-0[invisible md:visible xl:invisible xl:h-0 xl:w-0 h-0 w-0 md:h-28 md:w-28 rounded-full mb-0 object-cover object-center"
           >
             <Image
               src={urlFor(experience?.companyImage).url()}
@@ -66,7 +63,6 @@ export default function ExperienceCard({ experience }: Props) {
             />
           </motion.div>
         </div>
-
         <p className="uppercase py-2 md:py-5 text-gray-500 text-sm md:text-lg">
           {new Date(experience?.dateStarted).toDateString()} -{" "}
           {experience.isCurrentlyWorkingHere
@@ -74,7 +70,6 @@ export default function ExperienceCard({ experience }: Props) {
             : new Date(experience?.dateEnded).toDateString()}
         </p>
       </div>
-
       <ul className="px-0 md:px-10 list-disc text-black space-y-2 pr-5 text-justify ml-0 text-sm md:text-lg pl-5 overflow-y-scroll scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-darkGreen/80">
         {experience?.points.map((point, i) => (
           <li key={i}>{point}</li>
@@ -82,4 +77,4 @@ export default function ExperienceCard({ experience }: Props) {
       </ul>
     </article>
   );
-        }
+      }
