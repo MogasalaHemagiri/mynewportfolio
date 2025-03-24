@@ -5,11 +5,7 @@ import Header from "../components/Header";
 import Hero from "../components/Hero";
 import styles from "../styles/Home.module.css";
 import { Experience, PageInfo, Skill, Project, Social } from "../typings";
-import { fetchPageInfo } from "../utils/fetchPageInfo";
-import { fetchExperiences } from "../utils/fetchExperience";
-import { fetchProjects } from "../utils/fetchProjects";
-import { fetchSkills } from "../utils/fetchSkills";
-import { fetchSocials } from "../utils/fetchSocials";
+import { client } from "../sanity"; // Import Sanity client
 import About from "../components/About";
 import WorkExperience from "../components/WorkExperience";
 import Skills from "../components/Skills";
@@ -30,77 +26,43 @@ type Props = {
 const Home = ({ pageInfo, experiences, projects, skills, socials }: Props) => {
   return (
     <div
-      className="bg-lightBackground text-darkBlack h-screen snap-y snap-mandatory
-    overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-gray-400/20 scrollbar-thumb-darkGreen/80"
+      className="bg-lightBackground text-darkBlack h-screen snap-y snap-mandatory overflow-y-scroll overflow-x-hidden z-0 scrollbar-thin scrollbar-track-gray-400/20 scrollbar-thumb-darkGreen/80"
     >
       <Head>
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="Image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="Image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="manifest" href="/site.webmanifest" />
         <title>{"Mitch's Portfolio"}</title>
       </Head>
 
-      {/* Google Analytics */}
-      <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-LV1LN9VBT0"
-        strategy="afterInteractive"
-      ></Script>
+      <Script src="https://www.googletagmanager.com/gtag/js?id=G-LV1LN9VBT0" strategy="afterInteractive"></Script>
       <Script id="google-analytics" strategy="afterInteractive">
         {`window.dataLayer = window.dataLayer || [];
-           function gtag(){dataLayer.push(arguments);}
-           gtag('js', new Date());
-           gtag('config', 'G-LV1LN9VBT0')`}
-        ;
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-LV1LN9VBT0');`}
       </Script>
 
-      {/* Header */}
       <Header socials={socials} />
-
-      {/* Hero */}
       <section id="hero" className="snap-start">
         <Hero pageInfo={pageInfo} />
       </section>
-
-      {/* About */}
       <section id="about" className="snap-center">
         <About pageInfo={pageInfo} />
       </section>
-
-      {/* Experiences */}
       <section id="experience" className="snap-center">
         <WorkExperience experiences={experiences} />
       </section>
-
-      {/* Skills */}
       <section id="skills" className="snap-start">
         <Skills skills={skills} />
       </section>
-
-      {/* Projects */}
       <section id="projects" className="snap-start">
         <Projects projects={projects} />
       </section>
-
-      {/* Contact */}
       <section id="contact" className="snap-start">
         <ContactMe />
       </section>
-
       <Link href="#hero">
         <footer className="sticky bottom-5 w-full cursor-pointer">
           <div className="flex items-center justify-center">
@@ -118,15 +80,21 @@ export default Home;
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   try {
-    const pageInfo = await fetchPageInfo();
-    const experiences = await fetchExperiences();
-    const skills = await fetchSkills();
-    const projects = await fetchProjects();
-    const socials = await fetchSocials();
+    const pageInfoQuery = `*[_type == "pageInfo"][0]`;
+    const experiencesQuery = `*[_type == "experience"] | order(dateStarted desc)`;
+    const skillsQuery = `*[_type == "skill"]`;
+    const projectsQuery = `*[_type == "project"]`;
+    const socialsQuery = `*[_type == "social"]`;
+
+    const pageInfo: PageInfo = await client.fetch(pageInfoQuery);
+    const experiences: Experience[] = await client.fetch(experiencesQuery);
+    const skills: Skill[] = await client.fetch(skillsQuery);
+    const projects: Project[] = await client.fetch(projectsQuery);
+    const socials: Social[] = await client.fetch(socialsQuery);
 
     return {
       props: {
-        pageInfo: pageInfo || {}, // Ensure default values
+        pageInfo: pageInfo || ({} as PageInfo),
         experiences: experiences || [],
         skills: skills || [],
         projects: projects || [],
@@ -135,11 +103,10 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
       revalidate: 10,
     };
   } catch (error) {
-    console.error("Error fetching data:", error);
-
+    console.error("Error fetching data from Sanity:", error);
     return {
       props: {
-        pageInfo: {}, // Avoid crashes by providing empty values
+        pageInfo: {} as PageInfo,
         experiences: [],
         skills: [],
         projects: [],
@@ -149,4 +116,3 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     };
   }
 };
-
