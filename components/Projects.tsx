@@ -12,7 +12,7 @@ export default function Projects({ projects }: Props) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5 }}
-      className=" h-screen relative flex overflow-hidden flex-col text-left md:flex-row max-w-full justify-evenly mx-auto items-center z-0"
+      className="h-screen relative flex overflow-hidden flex-col text-left md:flex-row max-w-full justify-evenly mx-auto items-center z-0"
     >
       <h3 className="absolute top-20 md:top-24 uppercase tracking-[20px] text-gray-500 text-xl md:text-2xl">
         Projects
@@ -24,15 +24,21 @@ export default function Projects({ projects }: Props) {
             key={project._id}
             className="w-screen flex-shrink-0 snap-center flex flex-col space-y-5 items-center justify-center p-10 md:p-44 h-screen"
           >
-            <motion.image
+            <motion.div
               initial={{ y: -100, opacity: 0 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2 }}
               viewport={{ once: true }}
-              className=" h-28 xl:h-80 md:h-72 object-contain"
-              src={urlFor(project?.image).url()}
-              alt=""
-            />
+              className="h-28 xl:h-80 md:h-72 object-contain"
+            >
+              <Image
+                src={urlFor(project?.image).url()}
+                alt={`${project?.title || "Project"} Image`}
+                width={300} // Adjust based on your design
+                height={300} // Adjust based on your design
+                className="w-full h-full object-contain"
+              />
+            </motion.div>
 
             <div className="space-y-5 md:space-y-10 px-0 md:px-10 max-w-6xl">
               <h4 className="text-lg md:text-2xl lg:text-4xl font-semibold text-center">
@@ -41,18 +47,20 @@ export default function Projects({ projects }: Props) {
                 </span>{" "}
                 {project?.title}
               </h4>
-              <div className="flex items-center space-x-2 justify-center ">
+              <div className="flex items-center space-x-2 justify-center">
                 {project?.technologies.map((technology) => (
                   <Image
                     key={technology._id}
                     className="h-10 w-10 rounded-full object-cover"
                     src={urlFor(technology?.image).url()}
-                    alt=""
+                    alt={`${technology?.title || "Technology"} Icon`}
+                    width={40}
+                    height={40}
                   />
                 ))}
               </div>
 
-              <p className="text-sm md:text-md lg:text-lg text-justify ">
+              <p className="text-sm md:text-md lg:text-lg text-justify">
                 {project?.summary}
               </p>
             </div>
@@ -63,4 +71,4 @@ export default function Projects({ projects }: Props) {
       <div className="w-full absolute top-[20%] md:top-[30%] bg-darkGreen/40 left-0 h-[500px] -skew-y-12"></div>
     </motion.div>
   );
-}
+                                           }
