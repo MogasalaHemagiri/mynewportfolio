@@ -8,7 +8,7 @@ type Props = { experience: Experience };
 export default function ExperienceCard({ experience }: Props) {
   return (
     <article className=" flex drop-shadow-xl flex-col rounded-3xl items-center space-y-0 flex-shrink-0 w-72  md:w-[600px] xl:w-[700px] snap-center bg-[#FFFFFF] bg-gradient-to-tr from-white  to-darkGreen/20 p-5 md:p10 hover:opacity-100 opacity-100 cursor-pointer transition-opacity duration-200 ">
-      <motion.img
+      <motion.image
         initial={{ opacity: 0, y: -100 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -28,7 +28,7 @@ export default function ExperienceCard({ experience }: Props) {
             </p>
             <div className="flex space-x-2 my-2">
               {experience?.technologies.map((technology) => (
-                <img
+                <<Image/>
                   key={technology._id}
                   className="h-10 w-10 rounded-full object-cover"
                   src={urlFor(technology?.Image).url()}
@@ -37,7 +37,7 @@ export default function ExperienceCard({ experience }: Props) {
               ))}
             </div>
           </div>
-          <motion.img
+          <motion.image
             initial={{ opacity: 0, y: -100 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
